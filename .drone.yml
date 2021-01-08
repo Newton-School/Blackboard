@@ -1,4 +1,3 @@
-
 kind: pipeline
 name: default
 
@@ -7,8 +6,8 @@ steps:
     image: newtonschool/cypress-test
     when:
       status:
-      - failure
-      - success
+        - failure
+        - success
     commands:
       - touch html_temp_file
       - echo ${HTML_CODE} > html_temp_file
@@ -17,21 +16,14 @@ steps:
       - touch test_case_temp_file
       - echo ${TEST_CASES} > test_case_temp_file
       - sed -i "s/ /+/g" test_case_temp_file
-      - base64 --decode ./test_case_temp_file > cypress/integration/tests.js
+      - base64 --decode ./test_case_temp_file > cypress/integration/index.specs.js
       - npm install
       - npm test
   - name: result
     image: node
     when:
       status:
-      - failure
-      - success
+        - failure
+        - success
     commands:
       - node parser.js
-
-
-
-      
-
-
-
